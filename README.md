@@ -26,7 +26,12 @@ PostgreSQL and project configuration files are located in postgresql directory. 
 ```
 .
 ├── flask_app 
-│   ├── app.py          
+│   ├── app
+│   │   ├── __init__.py
+│   │   ├── database_creation.py
+│   │   ├── defs.py
+│   │   ├── models.py
+│   │   └── routes.py        
 │   ├── wsgi.py
 │   ├── requirements.txt
 │   ├── uber.log
