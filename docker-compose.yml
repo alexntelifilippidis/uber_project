@@ -1,0 +1,32 @@
+version: '3.3'
+
+services:
+  flask_app:
+    container_name: flask_app_uber
+    restart: always
+    build: ./flask_app
+    ports:
+      - "5000:5000"
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/uber
+      - SECRET_KEY=secret123!@#
+    depends_on:
+        - db
+    command: gunicorn --workers=3 --threads=3 -b 0.0.0.0:5000 wsgi:app
+
+  db:
+    container_name: postgres_uber
+    restart: always
+    build: ./postgresql
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+      - ./postgresql/scripts/create_schema.sql:/docker-entrypoint-initdb.d/create_schema.sql
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=uber
+    ports:
+      - "5432:5432"
+
+volumes:
+  postgres_data:
