@@ -5,7 +5,7 @@
 
 echo "******* Stop and remove containers, networks.. *******"
 docker-compose down
-docker volume rm uber_project_postgres_data
+#docker volume rm uber_project_postgres_data
 
 echo "******* building docker containers *******"
 docker-compose up --build -d
