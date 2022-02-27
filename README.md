@@ -36,9 +36,7 @@ PostgreSQL and project configuration files are located in postgresql directory. 
 │   ├── requirements.txt
 │   ├── uber.log
 │   └── Dockerfile
-├── postgresql
-│   ├── scripts          
-│   └── Dockerfile
+│
 ├── docker-compose.yml
 ├── run_docker.sh
 ├── gitignore
@@ -46,3 +44,7 @@ PostgreSQL and project configuration files are located in postgresql directory. 
 
 ```
 ## API endpoints manual
+See Git repository wiki
+
+## ER diagram for DB
+See Git repository wiki

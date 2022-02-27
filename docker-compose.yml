@@ -15,12 +15,11 @@ services:
     command: gunicorn --workers=3 --threads=3 -b 0.0.0.0:5000 wsgi:app
 
   db:
-    container_name: postgres_uber
+    image: postgres:13
+    container_name: postgresql_uber
     restart: always
-    build: ./postgresql
     volumes:
       - postgres_data:/var/lib/postgresql/data/
-      - ./postgresql/scripts/create_schema.sql:/docker-entrypoint-initdb.d/create_schema.sql
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres

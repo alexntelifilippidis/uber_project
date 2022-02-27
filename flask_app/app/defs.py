@@ -1,8 +1,18 @@
+import psycopg2
+import pandas as pd
 
-def object_to_dict(object):
-    data = {}
-    for c in object.__table__.columns:
-        data[f'{c.name}'] = f'{str(getattr(object, c.name))}'
+# PG
+import sqlalchemy
 
-    return data
 
+def query_as_df(env, query):
+    # els01
+    con_els01 = env
+    engine_els01 = sqlalchemy.create_engine(con_els01)
+    con2els01 = engine_els01.connect()
+
+    df = pd.read_sql(query, con2els01)
+
+
+
+    return df
