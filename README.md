@@ -22,7 +22,8 @@ For Docker installation instructions follow:
 — The fast way: the project is structured as follows: Flask app and WSGI entry point are localed in flask_app directory.
 PostgreSQL and project configuration files are located in postgresql directory. Both directories contain Docker files that are connected using docker_compose.yml file in the main directory. 
   
-   For simplicity, I also added run_docker.sh file for an even easier setting-up and running this solution. 
+   For simplicity, I also added run_docker.sh file for an even easier setting-up and running this solution and for the environmental variables
+   i will have used Docker Secrets. 
 ```
 .
 ├── flask_app 

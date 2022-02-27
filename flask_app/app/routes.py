@@ -18,14 +18,16 @@ logger = logging.getLogger()
 # Now we are going to Set the threshold of logger to DEBUG
 logger.setLevel(logging.INFO)
 
+@app.route('/')
+def hello():
+    return jsonify('Welcome to uber API')
+
 
 @app.route('/survey/create/', methods=['GET', 'POST'])
 def survey_create():
     # Request json.
     request_data = request.get_json()
-    request_data = {
-        "survey_description": "xxxx"
-    }
+
     json_dump = json.dumps(request_data)
     request_data = json.loads(json_dump)
     try:
@@ -47,20 +49,7 @@ def survey_create():
 def question_create():
     # Request json.
     request_data = request.get_json()
-    request_data = {
-        "survey_id": 1,
-        "single_choice": {"question": ["xxx", "xxx"],
-                          },
-        "free_text": {"question": ["xxx", "xxx"],
-                      },
-        "multiple_choice": [{"question": "xxx",
-                             "multiple_question": ["xxx", "xxx"]
-                             },
-                            {"question": "xxx",
-                             "multiple_question": ["xxx", "xxx"]
-                             }
-                            ]
-    }
+
     json_dump = json.dumps(request_data)
     request_data = json.loads(json_dump)
     try:
@@ -106,9 +95,7 @@ def question_create():
 def retrieve_survey():
     # Request json.
     request_data = request.get_json()
-    request_data = {
-        "survey_id": 1
-    }
+
     json_dump = json.dumps(request_data)
     request_data = json.loads(json_dump)
     try:
@@ -144,27 +131,7 @@ def retrieve_survey():
 def answer_survey():
     # Request json.
     request_data = request.get_json()
-    request_data = {
-        "survey_id": 1,
-        "single_choice": [{"question": "xxx",
-                           "answer": False,
-                           "other": 'xxx'},
-                          {"question": "xxx",
-                           "answer": True,
-                           "other": 'xxx'}],
-        "free_text": [{"question": "xxx",
-                       "answer": 'xxx',
-                       "other": 'xxx'},
-                      {"question": "xxx",
-                       "answer": 'xxx',
-                       "other": 'xxx'}],
-        "multiple_choice": [{"question": "xxx",
-                             "answer": 'answer1',
-                             "other": 'xxx'},
-                            {"question": "xxx",
-                             "answer": 'answer2',
-                             "other": 'xxx'}],
-    }
+
     json_dump = json.dumps(request_data)
     request_data = json.loads(json_dump)
     try:
@@ -206,21 +173,19 @@ def answer_survey():
 def statistics_survey():
     # Request json.
     request_data = request.get_json()
-    request_data = {
-        "survey_id": 1
-    }
+
     json_dump = json.dumps(request_data)
     request_data = json.loads(json_dump)
-    # try:
-    query1 = stat_single_choice(str(request_data["survey_id"]))
-    query2 = stat_free_text(str(request_data["survey_id"]))
-    query3 = stat_multiple_choice(str(request_data["survey_id"]))
-    df1 = query_as_df(app.config['SQLALCHEMY_DATABASE_URI'], query1)
-    df2 = query_as_df(app.config['SQLALCHEMY_DATABASE_URI'], query2)
-    df3 = query_as_df(app.config['SQLALCHEMY_DATABASE_URI'], query3)
+    try:
+        query1 = stat_single_choice(str(request_data["survey_id"]))
+        query2 = stat_free_text(str(request_data["survey_id"]))
+        query3 = stat_multiple_choice(str(request_data["survey_id"]))
+        df1 = query_as_df(app.config['SQLALCHEMY_DATABASE_URI'], query1)
+        df2 = query_as_df(app.config['SQLALCHEMY_DATABASE_URI'], query2)
+        df3 = query_as_df(app.config['SQLALCHEMY_DATABASE_URI'], query3)
 
-    return jsonify(stat_single_choice=df1.to_dict('records'), stat_free_text=df2.to_dict('records'),
-                   stat_multiple_choice=df3.to_dict('records'))
-    # except:
-    #     payload = {"error": 500, "message": "Internal Server Error"}
-    #     return jsonify(success=False, payload=payload)
+        return jsonify(stat_single_choice=df1.to_dict('records'), stat_free_text=df2.to_dict('records'),
+                       stat_multiple_choice=df3.to_dict('records'))
+    except:
+        payload = {"error": 500, "message": "Internal Server Error"}
+        return jsonify(success=False, payload=payload)
